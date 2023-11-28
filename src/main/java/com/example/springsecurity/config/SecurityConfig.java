@@ -22,9 +22,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement((sessionManagement) ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+//                .sessionManagement((sessionManagement) ->
+//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
                 .authorizeHttpRequests((authorizeRequests ->
                         authorizeRequests
                             .requestMatchers("/user/**").authenticated()
@@ -33,7 +33,10 @@ public class SecurityConfig {
                             .anyRequest().permitAll()
                  ))
                 .formLogin((formLogin) ->
-                        formLogin.loginPage("/loginForm")
+                        formLogin
+                                .loginPage("/loginForm")
+                                .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행
+                                .defaultSuccessUrl("/")
                 );
 
         return http.build();
