@@ -1,11 +1,14 @@
 package com.example.springsecurity.config.auth;
 
 import com.example.springsecurity.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * 시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행시킨다.
@@ -15,7 +18,8 @@ import java.util.Collection;
  * User 오브젝트타입 => UserDetails 타입 객체
  * Security Session => Authentication => UserDetails(PrincipalDetails)
  */
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user;
 
@@ -67,5 +71,14 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 }
